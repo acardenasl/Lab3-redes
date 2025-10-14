@@ -1,9 +1,9 @@
 # Lab3-redes
 
 Laboratorio 3 hecho por:
-Andrés Cárdenas Layton 202122083 
-David Felipe Velasquez Parra 202321492
-Maria Paula Ospina Plazas 202123208
+/n Andrés Cárdenas Layton 202122083 
+/n David Felipe Velasquez Parra 202321492
+/n Maria Paula Ospina Plazas 202123208
 
 
 # Libreria para UDP
