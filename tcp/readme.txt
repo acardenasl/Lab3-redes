@@ -1,2 +1,0 @@
-Andrés Cárdenas Layton
-202122083
