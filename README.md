@@ -13,24 +13,21 @@ Cabe aclarar que se uso la funcion printf(), la cual se documenta enseguida:
 
 - Función printf(): Es una de las más utilizadas del encabezado <stdio.h> y permite imprimir texto formateado en la salida estándar (por defecto, la consola).
 
-Su prototipo es el siguiente:
-
-int printf(const char *formato, ...);
-
-Parámetros:
-
-formato → cadena de texto con posibles especificadores (%d, %s, %lu, etc.).
-
-... → lista de valores que reemplazan los especificadores dentro de la cadena.
-
-Funcionamiento interno:
-
-1. printf() analiza la cadena de formato.
-2. Sustituye los valores de los argumentos variables.
-3. Envía el texto resultante al file descriptor 1 (stdout) mediante una llamada interna a write() del kernel.
-
-Ejemplo en este proyecto:
-printf("Mensaje recibido: %s\n", buffer);
+	- Su prototipo es el siguiente: int printf(const char *formato, ...);
+	
+	- Parámetros:
+	
+		formato → cadena de texto con posibles especificadores (%d, %s, %lu, etc.).
+	
+		... → lista de valores que reemplazan los especificadores dentro de la cadena.
+	
+	- Funcionamiento interno:
+	
+		1. printf() analiza la cadena de formato.
+		2. Sustituye los valores de los argumentos variables.
+		3. Envía el texto resultante al file descriptor 1 (stdout) mediante una llamada interna a write() del kernel.
+	
+	- Ejemplo en este proyecto: printf("Mensaje recibido: %s\n", buffer);
 
 # Explicación del sistema UDP
 
