@@ -62,21 +62,21 @@ El publicador simula al periodista deportivo que reporta los eventos del partido
 
 # TCP – Sistema Publish/Subscribe
 
-Este proyecto implementa un sistema **Publish/Subscribe** sobre **TCP** en C, utilizando sockets y manejo de hilos con `pthread`.  
-El objetivo fue construir un **broker** que recibe mensajes de múltiples publishers y los reenvía a todos los subscribers suscritos al mismo tópico, garantizando entrega confiable gracias a TCP.
+Este proyecto implementa un sistema Publish/Subscribe sobre TCP en C, utilizando sockets y manejo de hilos con `pthread`.  
+El objetivo fue construir un broker que recibe mensajes de múltiples publishers y los reenvía a todos los subscribers suscritos al mismo tópico, garantizando entrega confiable gracias a TCP.
 
-- **Broker (`broker_tcp.c`)** 
+- **Broker (broker_tcp.c)** 
   - Escucha en dos puertos: uno para publishers y otro para subscribers.  
   - Mantiene una lista enlazada de tópicos y suscriptores.  
   - Cada conexión se maneja en un hilo independiente.  
   - Reenvía mensajes recibidos de publishers a todos los subscribers suscritos al tópico correspondiente.  
 
-- **Publisher (`publisher_tcp.c`)**  
+- **Publisher (publisher_tcp.c)**  
   - Se conecta al puerto de publicación del broker.  
   - Envía un número configurable de mensajes en un tópico.  
   - Permite definir un intervalo opcional entre mensajes.  
 
-- **Subscriber (`subscriber_tcp.c`)**  
+- **Subscriber (subscriber_tcp.c)**  
   - Se conecta al puerto de subscripción del broker.  
   - Envía un comando `SUBSCRIBE <topic>` para registrarse.  
   - Recibe y muestra en consola todos los mensajes publicados en ese tópico.  
@@ -85,7 +85,7 @@ El objetivo fue construir un **broker** que recibe mensajes de múltiples publis
 
 ## Compilación
 
-Compilar cada componente con `gcc`:
+Compilar cada componente con gcc:
 
 bash
 gcc -o broker_tcp broker_tcp.c -lpthread
