@@ -104,6 +104,7 @@ Cada componente del sistema debe compilarse de forma independiente utilizando el
 gcc -o broker_tcp broker_tcp.c -lpthread
 gcc -o publisher_tcp publisher_tcp.c
 gcc -o subscriber_tcp subscriber_tcp.c
+```
 
 ## Comandos
 - ./broker_tcp <pub_port> <sub_port> : Se ejecuta primero, porque debe estar escuchando antes que los clientes se conecten
