@@ -108,9 +108,11 @@ gcc -o subscriber_tcp subscriber_tcp.c
 
 ## Comandos
 - **./broker_tcp <pub_port> <sub_port>**: Se ejecuta primero, porque debe estar escuchando antes que los clientes se conecten
+  
 ```./broker_tcp 5000 5001```
 
 - **./subscriber_tcp <broker_ip> <sub_port> <topic>**: Cada suscriptor se conecta al broker y se suscribe a un tema (topic) específico para recibir mensajes relacionados con ese tema.
+  
 ```./subscriber_tcp 127.0.0.1 5001 MatchA```  
 ```./subscriber_tcp 127.0.0.1 5001 MatchB```  
 
@@ -121,5 +123,6 @@ gcc -o subscriber_tcp subscriber_tcp.c
 
 ## Creación y captura del pcap
 Para analizar el intercambio de mensajes entre publicadores, broker y suscriptores, se puede capturar el tráfico TCP con tcpdump y visualizarlo en Wireshark.
+
 ```sudo tcpdump -i lo port 5000 or port 5001 -w pubsub_tcp.pcap```  
 ```wireshark pubsub_tcp.pcap```
