@@ -17,9 +17,9 @@ Es importante mencionar que se utilizo la funcion printf(), por lo cual se reali
 	
 	- Parámetros:
 	
-		formato → cadena de texto con posibles especificadores (%d, %s, %lu, etc.).
+		- formato: cadena de texto con posibles especificadores (%d, %s, %lu, etc.).
 	
-		... → lista de valores que reemplazan los especificadores dentro de la cadena.
+	    - ... : lista de valores que reemplazan los especificadores dentro de la cadena.
 	
 	- Funcionamiento interno:
 	
