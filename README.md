@@ -118,7 +118,7 @@ gcc -o subscriber_tcp subscriber_tcp.c
 ./publisher_tcp 127.0.0.1 5000 MatchA 5000 1
 ./publisher_tcp 127.0.0.1 5000 MatchB 5000 1
 
-### Creación y captura del pcap
+## Creación y captura del pcap
 Para analizar el intercambio de mensajes entre publicadores, broker y suscriptores, se puede capturar el tráfico TCP con tcpdump y visualizarlo en Wireshark.
 - sudo tcpdump -i lo port 5000 or port 5001 -w pubsub_tcp.pcap
 - wireshark pubsub_tcp.pcap
