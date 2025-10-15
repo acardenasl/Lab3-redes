@@ -33,7 +33,7 @@ Es importante mencionar que se utilizo la funcion printf(), por lo cual se reali
 
 El sistema implementa un modelo Publicador–Suscriptor (Publish/Subscribe) usando sockets UDP en lenguaje C, sin librerías externas, únicamente a través de llamadas de sistema (syscall). Este enfoque permite comprender cómo se comunican procesos mediante datagramas no orientados a conexión.
 
-- 1. Broker (broker_udp.c): El broker actúa como el intermediario central que recibe todos los mensajes de los publicadores y los reenvía a los suscriptores registrados.
+**Broker (broker_udp.c)**: El broker actúa como el intermediario central que recibe todos los mensajes de los publicadores y los reenvía a los suscriptores registrados.
      
 		•	Crea un socket UDP con SYS_socket(AF_INET, SOCK_DGRAM, 0).
 
@@ -47,7 +47,7 @@ El sistema implementa un modelo Publicador–Suscriptor (Publish/Subscribe) usan
 
 		•	No hay control de flujo, confirmaciones ni retransmisión: los mensajes pueden perderse o llegar fuera de orden, lo cual refleja el comportamiento real de UDP.
 
-- 2. Suscriptor (subscriber_udp.c): El suscriptor representa a un usuario que desea recibir actualizaciones en tiempo real.
+**Suscriptor (subscriber_udp.c)**: El suscriptor representa a un usuario que desea recibir actualizaciones en tiempo real.
    
 		•	Crea un socket UDP y define la dirección del broker (127.0.0.1:8080).
 
@@ -57,7 +57,7 @@ El sistema implementa un modelo Publicador–Suscriptor (Publish/Subscribe) usan
 
 		•	Cada datagrama recibido se imprime en pantalla como una nueva noticia.
 
-- 3. Publicador (publisher_udp.c): El publicador simula al periodista deportivo que reporta los eventos del partido.
+**Publicador (publisher_udp.c)**: El publicador simula al periodista deportivo que reporta los eventos del partido.
      
 		•	Crea un socket UDP y configura la dirección destino (el broker).
  
