@@ -23,9 +23,9 @@ Es importante mencionar que se utilizo la funcion printf(), por lo cual se reali
 	
 	- Funcionamiento interno:
 	
-		1. printf() analiza la cadena de formato.
-		2. Sustituye los valores de los argumentos variables.
-		3. Envía el texto resultante al file descriptor 1 (stdout) mediante una llamada interna a write() del kernel.
+		- printf() analiza la cadena de formato.
+		- Sustituye los valores de los argumentos variables.
+		- Envía el texto resultante al file descriptor 1 (stdout) mediante una llamada interna a write() del kernel.
 	
 	- Ejemplo en este proyecto: printf("Mensaje recibido: %s\n", buffer);
 
