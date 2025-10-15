@@ -13,13 +13,13 @@ Es importante mencionar que se utilizo la funcion printf(), por lo cual se reali
 
 - Función printf(): Es una de las más utilizadas del encabezado <stdio.h> y permite imprimir texto formateado en la salida estándar (por defecto, la consola).
 
-	- Su prototipo es el siguiente: int printf(const char *formato, ...);
+	- Su prototipo es el siguiente: int printf(const char *formato, ***);
 	
 	- Parámetros:
 	
 		- formato: cadena de texto con posibles especificadores (%d, %s, %lu, etc.).
 	
-	    - ... : lista de valores que reemplazan los especificadores dentro de la cadena.
+	    - *** : lista de valores que reemplazan los especificadores dentro de la cadena.
 	
 	- Funcionamiento interno:
 	
