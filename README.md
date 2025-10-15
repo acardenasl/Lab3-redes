@@ -62,4 +62,54 @@ El publicador simula al periodista deportivo que reporta los eventos del partido
 	•	Cada mensaje se envía como datagrama UDP al broker usando SYS_sendto.
 	•	No requiere conexión previa ni confirmación: simplemente “lanza” cada datagrama.
 
+# TCP – Sistema Publish/Subscribe
 
+Este proyecto implementa un sistema **Publish/Subscribe** sobre **TCP** en C, utilizando sockets y manejo de hilos con `pthread`.  
+El objetivo fue construir un **broker** que recibe mensajes de múltiples publishers y los reenvía a todos los subscribers suscritos al mismo tópico, garantizando entrega confiable gracias a TCP.
+
+- **Broker (`broker_tcp.c`)** 
+  - Escucha en dos puertos: uno para publishers y otro para subscribers.  
+  - Mantiene una lista enlazada de tópicos y suscriptores.  
+  - Cada conexión se maneja en un hilo independiente.  
+  - Reenvía mensajes recibidos de publishers a todos los subscribers suscritos al tópico correspondiente.  
+
+- **Publisher (`publisher_tcp.c`)**  
+  - Se conecta al puerto de publicación del broker.  
+  - Envía un número configurable de mensajes en un tópico.  
+  - Permite definir un intervalo opcional entre mensajes.  
+
+- **Subscriber (`subscriber_tcp.c`)**  
+  - Se conecta al puerto de subscripción del broker.  
+  - Envía un comando `SUBSCRIBE <topic>` para registrarse.  
+  - Recibe y muestra en consola todos los mensajes publicados en ese tópico.  
+
+---
+
+## Compilación
+
+Compilar cada componente con `gcc`:
+
+bash
+gcc -o broker_tcp broker_tcp.c -lpthread
+gcc -o publisher_tcp publisher_tcp.c
+gcc -o subscriber_tcp subscriber_tcp.c
+
+## Comandos
+
+./broker_tcp <pub_port> <sub_port>
+# Ejemplo:
+./broker_tcp 5000 5001
+
+./subscriber_tcp <broker_ip> <sub_port> <topic>
+# Ejemplo:
+./subscriber_tcp 127.0.0.1 5001 MatchA
+./subscriber_tcp 127.0.0.1 5001 MatchB
+
+./publisher_tcp <broker_ip> <pub_port> <topic> <num_msgs> [interval_ms]
+# Ejemplo:
+./publisher_tcp 127.0.0.1 5000 MatchA 5000 1
+./publisher_tcp 127.0.0.1 5000 MatchB 5000 1
+
+# Creación y captura del pcap
+sudo tcpdump -i lo port 5000 or port 5001 -w pubsub_tcp.pcap
+wireshark pubsub_tcp.pcap
