@@ -107,13 +107,7 @@ Cada mensaje se construye dinámicamente y contiene un identificador incremental
 	
 	send_all(): asegura la transmisión completa de un buffer por el socket, repitiendo las llamadas a send() hasta completar el envío o encontrar un error.
 
-- Cierre de conexión: Una vez enviados todos los mensajes, o si ocurre un error, el socket se cierra con close(sock) liberando los recursos asociados.
-  
-		• Se conecta al puerto de publicación del broker.
-		    
-		• Envía un número configurable de mensajes en un tópico.
-		    
-		• Permite definir un intervalo opcional entre mensajes.  
+- Cierre de conexión: Una vez enviados todos los mensajes, o si ocurre un error, el socket se cierra con close(sock) liberando los recursos asociados. 
 
 **Subscriber (subscriber_tcp.c)**  
 
