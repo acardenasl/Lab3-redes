@@ -91,7 +91,23 @@ Este proyecto implementa un sistema Publish/Subscribe sobre TCP en C, utilizando
 	
 	broadcast_to_topic(): reenvía un mensaje a todos los suscriptores de un tema.
 
-**Publisher (publisher_tcp.c)**  
+**Publisher (publisher_tcp.c)**: El publicador se ejecuta desde la línea de comandos con los parámetros, dirección IP del broker, puerto de publicación, nombre del tema, número de mensajes y, opcionalmente, el intervalo entre mensajes en milisegundos. Una vez conectado al broker, envía los mensajes usando el formato textual:
+
+```PUBLISH <topic> <mensaje>```
+
+Cada mensaje se construye dinámicamente y contiene un identificador incremental junto con el PID del proceso que lo envía.
+
+- Proceso de conexión: El programa crea un socket TCP cliente mediante socket(AF_INET, SOCK_STREAM, 0) y establece la conexión con el broker usando connect(). Si la conexión falla, el programa muestra un mensaje de error y finaliza. En caso de éxito, el publicador informa por consola la conexión y el tema al que enviará los mensajes.
+
+- Envío de mensajes: Dentro de un bucle, el publicador genera los mensajes usando snprintf() y los envía al broker mediante la función auxiliar send_all(), la cual garantiza que todo el contenido del mensaje sea transmitido, incluso si send() devuelve envíos parciales. Entre cada envío, el programa pausa la ejecución con usleep(interval * 1000) para mantener el intervalo especificado entre mensajes.
+
+- Funciones principales:
+
+	main(): gestiona los argumentos de entrada, establece la conexión TCP y envía los mensajes al broker.
+	
+	send_all(): asegura la transmisión completa de un buffer por el socket, repitiendo las llamadas a send() hasta completar el envío o encontrar un error.
+
+- Cierre de conexión: Una vez enviados todos los mensajes, o si ocurre un error, el socket se cierra con close(sock) liberando los recursos asociados.
   
 		• Se conecta al puerto de publicación del broker.
 		    
