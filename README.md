@@ -34,7 +34,7 @@ Es importante mencionar que se utilizo la funcion printf(), por lo cual se reali
 El sistema implementa un modelo Publicador–Suscriptor (Publish/Subscribe) usando sockets UDP en lenguaje C, sin librerías externas, únicamente a través de llamadas de sistema (syscall). Este enfoque permite comprender cómo se comunican procesos mediante datagramas no orientados a conexión.
 
 **Broker (broker_udp.c)**: El broker actúa como el intermediario central que recibe todos los mensajes de los publicadores y los reenvía a los suscriptores registrados. 
-     
+
 		•	Crea un socket UDP con SYS_socket(AF_INET, SOCK_DGRAM, 0).
 
 		•	Lo asocia al puerto 8080 mediante SYS_bind.
@@ -46,6 +46,20 @@ El sistema implementa un modelo Publicador–Suscriptor (Publish/Subscribe) usan
 		•	Si el mensaje proviene de un publicador, lo imprime en pantalla y lo reenvía a todos los suscriptores mediante SYS_sendto.
 
 		•	No hay control de flujo, confirmaciones ni retransmisión: los mensajes pueden perderse o llegar fuera de orden, lo cual refleja el comportamiento real de UDP.
+
+- Finalización del proceso: El programa se ejecuta en un bucle infinito, gestionando continuamente la comunicación entre publicadores y suscriptores.
+En caso de finalización manual, el socket se cierra con SYS_close, liberando los recursos del sistema.
+
+- Funciones principales
+
+	main()
+	Controla todo el flujo del programa: inicializa el socket UDP, gestiona las estructuras de red (sockaddr_in), recibe datagramas, identifica comandos de suscripción y reenvía mensajes a los suscriptores.
+	
+	htons()
+	Implementa manualmente la conversión de orden de bytes de host a red (big-endian), necesaria para definir correctamente el puerto de escucha del broker.
+	
+	syscall()
+	Utilizada en lugar de funciones estándar de biblioteca (como socket(), bind(), sendto(), etc.), permite realizar llamadas directas al sistema Linux, mostrando un enfoque de bajo nivel para la comunicación UDP.
 
 **Suscriptor (subscriber_udp.c)**: El suscriptor representa a un usuario que desea recibir actualizaciones en tiempo real.
    
