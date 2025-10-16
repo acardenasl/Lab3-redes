@@ -77,7 +77,7 @@ Este proyecto implementa un sistema Publish/Subscribe sobre TCP en C, utilizando
 
 - Concurrencia: Cada conexión entrante (publicador o suscriptor) se atiende en un hilo separado creado con pthread_create(). El acceso concurrente a la lista global de temas y suscriptores está sincronizado mediante bloqueos mutex, garantizando la integridad de los datos durante altas cargas o desconexiones.
 
-- Funciones principales
+- Funciones principales: 
 
 	create_and_bind(): crea y configura un socket TCP en el puerto especificado.
 	
