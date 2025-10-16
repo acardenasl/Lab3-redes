@@ -71,25 +71,23 @@ El sistema implementa un modelo Publicador–Suscriptor (Publish/Subscribe) usan
 
 Este proyecto implementa un sistema Publish/Subscribe sobre TCP en C, utilizando sockets y manejo de hilos con pthread. El objetivo fue construir un broker que recibe mensajes de múltiples publishers y los reenvía a todos los subscribers suscritos al mismo tópico, garantizando entrega confiable gracias a TCP.
 
-**Broker (broker_tcp.c)** 
-
-Funcionamiento: El broker recibe dos puertos como parámetros: uno para publicadores y otro para suscriptores. En cada puerto, el programa crea un socket TCP de escucha y lanza un hilo de aceptación que atiende las nuevas conexiones entrantes. Cada cliente (publicador o suscriptor) se maneja en un hilo independiente, lo que permite la comunicación concurrente.
+**Broker (broker_tcp.c)**: El broker recibe dos puertos como parámetros, uno para publicadores y otro para suscriptores. En cada puerto, el programa crea un socket TCP de escucha y lanza un hilo de aceptación que atiende las nuevas conexiones entrantes. Cada cliente (publicador o suscriptor) se maneja en un hilo independiente, lo que permite la comunicación concurrente.
 
 Estructura de datos: El sistema organiza los datos mediante listas enlazadas. Cada tema (Topic) contiene su nombre y una lista de suscriptores (Subscriber) asociados. La lista global de temas está protegida por un mutex (topics_lock) para evitar condiciones de carrera cuando múltiples hilos modifican las suscripciones o envían mensajes simultáneamente.
 
 Flujo de los publicadores: Los publicadores se conectan al puerto definido y envían mensajes con el formato:
 
-'''PUBLISH <topic> <mensaje>'''
+```PUBLISH <topic> <mensaje>```
 
 El broker identifica el tema y usa la función broadcast_to_topic() para reenviar el mensaje a todos los suscriptores asociados a ese tema. Si un envío falla, el suscriptor se elimina automáticamente.
 
 Flujo de los suscriptores: Los suscriptores se conectan al puerto de suscripción y envían comandos como:
 
-'''SUBSCRIBE <topic>'''
+```SUBSCRIBE <topic>```
 
 El broker los registra en la lista del tema correspondiente. Cuando se publica un mensaje, los suscriptores reciben una notificación con el formato:
 
-'''EVENT <topic> <mensaje>'''
+```EVENT <topic> <mensaje>```
 
 Si un suscriptor se desconecta, se elimina de todas las listas de temas.
 
