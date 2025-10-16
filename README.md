@@ -52,14 +52,11 @@ En caso de finalización manual, el socket se cierra con SYS_close, liberando lo
 
 - Funciones principales
 
-	main()
-	Controla todo el flujo del programa: inicializa el socket UDP, gestiona las estructuras de red (sockaddr_in), recibe datagramas, identifica comandos de suscripción y reenvía mensajes a los suscriptores.
+	main(): Controla todo el flujo del programa: inicializa el socket UDP, gestiona las estructuras de red (sockaddr_in), recibe datagramas, identifica comandos de suscripción y reenvía mensajes a los suscriptores.
 	
-	htons()
-	Implementa manualmente la conversión de orden de bytes de host a red (big-endian), necesaria para definir correctamente el puerto de escucha del broker.
+	htons(): Implementa manualmente la conversión de orden de bytes de host a red (big-endian), necesaria para definir correctamente el puerto de escucha del broker.
 	
-	syscall()
-	Utilizada en lugar de funciones estándar de biblioteca (como socket(), bind(), sendto(), etc.), permite realizar llamadas directas al sistema Linux, mostrando un enfoque de bajo nivel para la comunicación UDP.
+	syscall(): Utilizada en lugar de funciones estándar de biblioteca (como socket(), bind(), sendto(), etc.), permite realizar llamadas directas al sistema Linux, mostrando un enfoque de bajo nivel para la comunicación UDP.
 
 **Suscriptor (subscriber_udp.c)**: El suscriptor representa a un usuario que desea recibir actualizaciones en tiempo real.
    
@@ -70,6 +67,16 @@ En caso de finalización manual, el socket se cierra con SYS_close, liberando lo
 		•	Luego, permanece escuchando indefinidamente con SYS_recvfrom.
 
 		•	Cada datagrama recibido se imprime en pantalla como una nueva noticia.
+
+- Finalización del proceso: Aunque el programa está diseñado para ejecutarse indefinidamente, si se interrumpe manualmente, el socket se cierra mediante SYS_close, liberando los recursos del sistema.
+
+- Funciones principales:
+
+	main(): Controla todo el flujo de ejecución: crea el socket, define la estructura de dirección, envía la suscripción inicial y gestiona el ciclo continuo de recepción de mensajes.
+	
+	htons(): Realiza la conversión de orden de bytes de host a red (big-endian) para el puerto, garantizando compatibilidad con el formato estándar de comunicación en redes TCP/IP.
+	
+	syscall(): Permite realizar llamadas directas al sistema operativo Linux, reemplazando funciones de biblioteca como socket(), sendto() o recvfrom(), para lograr una implementación de bajo nivel del protocolo UDP.
 
 **Publicador (publisher_udp.c)**: El publicador simula al periodista deportivo que reporta los eventos del partido.
      
