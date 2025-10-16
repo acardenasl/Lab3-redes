@@ -73,47 +73,23 @@ Este proyecto implementa un sistema Publish/Subscribe sobre TCP en C, utilizando
 
 **Broker (broker_tcp.c)**: El broker recibe dos puertos como parámetros, uno para publicadores y otro para suscriptores. En cada puerto, el programa crea un socket TCP de escucha y lanza un hilo de aceptación que atiende las nuevas conexiones entrantes. Cada cliente (publicador o suscriptor) se maneja en un hilo independiente, lo que permite la comunicación concurrente.
 
-Estructura de datos: El sistema organiza los datos mediante listas enlazadas. Cada tema (Topic) contiene su nombre y una lista de suscriptores (Subscriber) asociados. La lista global de temas está protegida por un mutex (topics_lock) para evitar condiciones de carrera cuando múltiples hilos modifican las suscripciones o envían mensajes simultáneamente.
+- Estructura de datos: El sistema organiza los datos mediante listas enlazadas. Cada tema (Topic) contiene su nombre y una lista de suscriptores (Subscriber) asociados. La lista global de temas está protegida por un mutex (topics_lock) para evitar condiciones de carrera cuando múltiples hilos modifican las suscripciones o envían mensajes simultáneamente.
 
-Flujo de los publicadores: Los publicadores se conectan al puerto definido y envían mensajes con el formato:
-
-```PUBLISH <topic> <mensaje>```
-
-El broker identifica el tema y usa la función broadcast_to_topic() para reenviar el mensaje a todos los suscriptores asociados a ese tema. Si un envío falla, el suscriptor se elimina automáticamente.
-
-Flujo de los suscriptores: Los suscriptores se conectan al puerto de suscripción y envían comandos como:
-
-```SUBSCRIBE <topic>```
-
-El broker los registra en la lista del tema correspondiente. Cuando se publica un mensaje, los suscriptores reciben una notificación con el formato:
-
-```EVENT <topic> <mensaje>```
-
-Si un suscriptor se desconecta, se elimina de todas las listas de temas.
-
-Concurrencia: Cada conexión entrante (publicador o suscriptor) se atiende en un hilo separado creado con pthread_create(). El acceso concurrente a la lista global de temas y suscriptores está sincronizado mediante bloqueos mutex, garantizando la integridad de los datos durante altas cargas o desconexiones.
+- Concurrencia: Cada conexión entrante (publicador o suscriptor) se atiende en un hilo separado creado con pthread_create(). El acceso concurrente a la lista global de temas y suscriptores está sincronizado mediante bloqueos mutex, garantizando la integridad de los datos durante altas cargas o desconexiones.
 
 - Funciones principales
 
-create_and_bind(): crea y configura un socket TCP en el puerto especificado.
-
-acceptor_loop(): acepta clientes y lanza un hilo por conexión.
-
-publisher_handler(): procesa mensajes PUBLISH de los publicadores.
-
-subscriber_handler(): procesa comandos SUBSCRIBE y gestiona desconexiones.
-
-add_subscriber() / remove_subscriber_from_all(): añaden o eliminan suscriptores de los temas.
-
-broadcast_to_topic(): reenvía un mensaje a todos los suscriptores de un tema.
-
-	    • Escucha en dos puertos: uno para publishers y otro para subscribers.
-	    
-	    • Mantiene una lista enlazada de tópicos y suscriptores.
-	    
-		• Cada conexión se maneja en un hilo independiente.
-	    
-	    • Reenvía mensajes recibidos de publishers a todos los subscribers suscritos al tópico correspondiente.  
+	create_and_bind(): crea y configura un socket TCP en el puerto especificado.
+	
+	acceptor_loop(): acepta clientes y lanza un hilo por conexión.
+	
+	publisher_handler(): procesa mensajes PUBLISH de los publicadores.
+	
+	subscriber_handler(): procesa comandos SUBSCRIBE y gestiona desconexiones.
+	
+	add_subscriber() / remove_subscriber_from_all(): añaden o eliminan suscriptores de los temas.
+	
+	broadcast_to_topic(): reenvía un mensaje a todos los suscriptores de un tema.
 
 **Publisher (publisher_tcp.c)**  
   
