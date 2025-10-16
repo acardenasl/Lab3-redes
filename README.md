@@ -88,6 +88,16 @@ En caso de finalización manual, el socket se cierra con SYS_close, liberando lo
 
 		•	No requiere conexión previa ni confirmación: simplemente “lanza” cada datagrama.  
 
+- Finalización del proceso: Una vez completado el envío de todos los mensajes, el programa muestra un mensaje resumen indicando la cantidad total transmitida y cierra el socket mediante SYS_close, liberando los recursos del sistema.
+
+- Funciones principales
+
+	main(): Contiene toda la lógica del programa: creación del socket, configuración de la dirección de destino, generación de mensajes, envío secuencial y reporte del progreso del envío.
+	
+	htons(): Convierte el número de puerto del formato de host al formato de red (host-to-network short), garantizando compatibilidad con las estructuras de red en sistemas basados en TCP/IP.
+	
+	syscall(): Se utiliza para realizar directamente las llamadas al sistema operativo (SYS_socket, SYS_sendto, SYS_close), reemplazando funciones de biblioteca y ofreciendo un control de bajo nivel sobre las operaciones de red.
+
 # Explicación del sistema TCP
 
 Este proyecto implementa un sistema Publish/Subscribe sobre TCP en C, utilizando sockets y manejo de hilos con pthread. El objetivo fue construir un broker que recibe mensajes de múltiples publishers y los reenvía a todos los subscribers suscritos al mismo tópico, garantizando entrega confiable gracias a TCP.
