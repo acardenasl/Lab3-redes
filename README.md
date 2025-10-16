@@ -109,13 +109,25 @@ Cada mensaje se construye dinámicamente y contiene un identificador incremental
 
 - Cierre de conexión: Una vez enviados todos los mensajes, o si ocurre un error, el socket se cierra con close(sock) liberando los recursos asociados. 
 
-**Subscriber (subscriber_tcp.c)**  
+**Subscriber (subscriber_tcp.c)**: El suscriptor valida los parámetros de entrada (broker_ip, sub_port, topic) y crea un socket TCP configurado con la dirección IP y puerto del broker. Mediante connect() establece la conexión con el servidor, permitiendo el intercambio bidireccional de datos. Si la conexión falla, el proceso termina mostrando un mensaje de error.
 
-		• Se conecta al puerto de subscripción del broker.
-		    
-		• Envía un comando `SUBSCRIBE <topic>` para registrarse.
-		    
-		• Recibe y muestra en consola todos los mensajes publicados en ese tópico.  
+- Suscripción al tópico: Una vez conectado, el programa construye un mensaje de suscripción con el formato SUBSCRIBE <topic>\n.
+Este mensaje se envía al broker mediante la función send_all(), asegurando que todos los bytes del comando sean transmitidos correctamente, incluso si el envío se realiza en fragmentos.
+
+- Recepción de mensajes: Luego de suscribirse, el programa entra en un bucle infinito donde escucha continuamente mensajes del broker.
+Utiliza la función read_line() para recibir datos carácter a carácter hasta detectar un salto de línea (\n), marcando el final del mensaje.
+Cada mensaje recibido se muestra en pantalla con el formato:
+[SUBSCRIBER] Received: <mensaje>.
+
+- Finalización del proceso: Cuando el broker cierra la conexión o ocurre un error en la recepción, el bucle termina. El programa muestra el mensaje [SUBSCRIBER] Disconnected from broker, cierra el socket con close() y libera los recursos.
+
+- Funciones principales: 
+
+	main(): Gestiona el flujo principal del programa. Se encarga de procesar los argumentos, crear y conectar el socket, enviar la suscripción y manejar el ciclo de recepción de mensajes.
+	
+	send_all(): Envía un buffer completo de datos por el socket, garantizando la transmisión total incluso cuando send() devuelve menos bytes de los esperados.
+	
+	read_line(): Lee datos del socket hasta encontrar un salto de línea. Permite procesar mensajes completos enviados por el broker, uno por uno.
 
 # Compilación
 Cada componente del sistema debe compilarse de forma independiente utilizando el compilador gcc. Los siguientes comandos permiten generar los ejecutables correspondientes a cada módulo del sistema:
