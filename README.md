@@ -139,6 +139,7 @@ gcc -o subscriber_tcp subscriber_tcp.c
 ```
 
 ## Comandos
+Se ejemplifica con el protocolo TCP, aunque son los mismos para UDP
 - **./broker_tcp <pub_port> <sub_port>**: Se ejecuta primero, porque debe estar escuchando antes que los clientes se conecten
   
 ```./broker_tcp 5000 5001```
